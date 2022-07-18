@@ -1,2 +1,3 @@
-const App = document.querySelector('.App');
-App.innerHTML = 'Hello World!';
+import App from './App';
+
+new App(document.getElementById('app'));
