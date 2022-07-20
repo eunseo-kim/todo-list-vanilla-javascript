@@ -1,6 +1,6 @@
 import Component from '../core/Component';
 
-export default class Items extends Component {
+export default class TodoItems extends Component {
   template() {
     const { items } = this.props;
 

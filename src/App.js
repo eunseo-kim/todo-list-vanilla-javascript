@@ -1,6 +1,6 @@
 import Component from './core/Component';
 import InputField from './components/InputField';
-import Items from './components/Items';
+import TodoItems from './components/TodoItems';
 
 export default class App extends Component {
   initialize() {
@@ -18,7 +18,7 @@ export default class App extends Component {
 
     const todoItems = this.target.querySelector('#todo-items');
 
-    new Items(todoItems, {
+    new TodoItems(todoItems, {
       items: this.state.items,
       deleteItem: this.deleteItem.bind(this),
     });
