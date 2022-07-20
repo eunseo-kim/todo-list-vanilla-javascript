@@ -43,17 +43,11 @@ export default class App extends Component {
     `;
   }
 
-  setId(newId) {
-    this.state = {
-      ...this.state,
-      id: newId,
-    };
-  }
-
   addItem(content) {
     const { items, id } = this.state;
 
     const newState = {
+      id: id + 1,
       items: [...items, {
         content,
         done: false,
@@ -61,7 +55,6 @@ export default class App extends Component {
       }],
     };
 
-    this.setId(id + 1);
     this.setState(newState);
   }
 
