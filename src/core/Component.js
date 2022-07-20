@@ -34,4 +34,11 @@ export default class Component {
     this.mounted();
     this.setEvent();
   }
+
+  addEvent({ target, className, event }) {
+    const { id } = target;
+    if (target.classList.contains(className)) {
+      event(Number(id));
+    }
+  }
 }

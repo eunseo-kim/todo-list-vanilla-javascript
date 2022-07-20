@@ -24,9 +24,7 @@ export default class DoneItems extends Component {
     const { cancelItem } = this.props;
 
     this.target.addEventListener('click', ({ target }) => {
-      if (target.classList.contains('cancel-button')) {
-        cancelItem(Number(target.id));
-      }
+      this.addEvent({ target, className: 'cancel-button', event: cancelItem });
     });
   }
 }

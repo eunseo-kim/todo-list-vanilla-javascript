@@ -31,13 +31,8 @@ export default class TodoItems extends Component {
     const { deleteItem, completeItem } = this.props;
 
     this.target.addEventListener('click', ({ target }) => {
-      if (target.classList.contains('delete-button')) {
-        deleteItem(Number(target.id));
-      }
-
-      if (target.classList.contains('done-button')) {
-        completeItem(Number(target.id));
-      }
+      this.addEvent({ target, className: 'delete-button', event: deleteItem });
+      this.addEvent({ target, className: 'done-button', event: completeItem });
     });
   }
 }
