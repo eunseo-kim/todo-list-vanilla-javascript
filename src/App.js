@@ -30,6 +30,7 @@ export default class App extends Component {
 
     new DoneItems(doneItems, {
       doneItems: this.state.items.filter((item) => item.done === true),
+      cancelItem: this.cancelItem.bind(this),
     });
   }
 
@@ -82,6 +83,23 @@ export default class App extends Component {
     const filteredItems = items.map((item) => {
       if (item.id === id) {
         Object.assign(item, { done: true });
+      }
+      return item;
+    });
+
+    const newState = {
+      items: [...filteredItems],
+    };
+
+    this.setState(newState);
+  }
+
+  cancelItem(id) {
+    const { items } = this.state;
+
+    const filteredItems = items.map((item) => {
+      if (item.id === id) {
+        Object.assign(item, { done: false });
       }
       return item;
     });

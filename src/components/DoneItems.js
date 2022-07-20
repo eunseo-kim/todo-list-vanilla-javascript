@@ -5,11 +5,28 @@ export default class DoneItems extends Component {
     const { doneItems } = this.props;
 
     return `
-        ${doneItems.map((item, index) => `
-            <li key=${index}>
-                ${item.content}
+        ${doneItems.map((item) => `
+            <li key=${item.id}>
+              ${item.content}
+              <button
+                type='button'
+                class='cancel-button'
+                id='${item.id}'
+                >
+                취소
+              </button>
             </li>
         `).join('')}
     `;
+  }
+
+  setEvent() {
+    const { cancelItem } = this.props;
+
+    this.target.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('cancel-button')) {
+        cancelItem(Number(target.id));
+      }
+    });
   }
 }
