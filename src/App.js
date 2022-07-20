@@ -1,5 +1,6 @@
 import Component from './core/Component';
 import InputField from './components/InputField';
+import Items from './components/Items';
 
 export default class App extends Component {
   initialize() {
@@ -14,16 +15,19 @@ export default class App extends Component {
     new InputField(inputField, {
       addItem: this.addItem.bind(this),
     });
+
+    const todoItems = this.target.querySelector('#todo-items');
+
+    new Items(todoItems, {
+      items: this.state.items,
+      deleteItem: this.deleteItem.bind(this),
+    });
   }
 
   template() {
-    const { items } = this.state;
-
     return `  
       <div id="input-field">Input Field</div>
-      <ul id="todo-items">
-      ${items.map((item) => `<li>${item}</li>`).join('')}
-      </ul>
+      <ul id="todo-items"></ul>
     `;
   }
 
@@ -32,6 +36,18 @@ export default class App extends Component {
 
     const newState = {
       items: [...items, content],
+    };
+
+    this.setState(newState);
+  }
+
+  deleteItem(itemIndex) {
+    const { items } = this.state;
+
+    const filteredItems = items.filter((item, index) => index !== itemIndex);
+
+    const newState = {
+      items: [...filteredItems],
     };
 
     this.setState(newState);
