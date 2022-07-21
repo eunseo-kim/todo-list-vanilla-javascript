@@ -3,33 +3,34 @@ import InputField from './components/InputField';
 import TodoItems from './components/TodoItems';
 import DoneItems from './components/DoneItems';
 
-export default class App extends Component {
-  initialize() {
-    this.state = {
-      id: 0,
-      items: [],
-    };
-  }
+import {
+  setId,
+  setItems,
+} from './actions';
 
+import store from './store';
+
+export default class App extends Component {
   mounted() {
     const inputField = this.target.querySelector('.input-field');
+    const todo = this.target.querySelector('.todo');
+    const done = this.target.querySelector('.done');
+
+    const todoItems = store.getState().items.filter((item) => item.done === false);
+    const doneItems = store.getState().items.filter((item) => item.done === true);
 
     new InputField(inputField, {
       addItem: this.addItem.bind(this),
     });
 
-    const items = this.target.querySelector('.todo-items');
-
-    new TodoItems(items, {
-      items: this.state.items.filter((item) => item.done === false),
+    new TodoItems(todo, {
+      todoItems,
       deleteItem: this.deleteItem.bind(this),
       completeItem: this.completeItem.bind(this),
     });
 
-    const doneItems = this.target.querySelector('.done-items');
-
-    new DoneItems(doneItems, {
-      doneItems: this.state.items.filter((item) => item.done === true),
+    new DoneItems(done, {
+      doneItems,
       cancelItem: this.cancelItem.bind(this),
     });
   }
@@ -37,41 +38,32 @@ export default class App extends Component {
   template() {
     return `  
       <div class="input-field">Input Field</div>
-      <ul class="todo-items"></ul>
+      <ul class="todo"></ul>
       <h3>Done Items</h3>
-      <ul class="done-items"></ul>
+      <ul class="done"></ul>
     `;
   }
 
   addItem(content) {
-    const { items, id } = this.state;
+    const { items, id } = store.getState();
 
-    const newState = {
-      id: id + 1,
-      items: [...items, {
-        content,
-        done: false,
-        id,
-      }],
-    };
+    const newItems = [...items, { content, done: false, id }];
 
-    this.setState(newState);
+    store.dispatch(setItems(newItems));
+    store.dispatch(setId(id + 1));
   }
 
   deleteItem(id) {
-    const { items } = this.state;
+    const { items } = store.getState();
 
     const filteredItems = items.filter((item) => item.id !== id);
 
-    const newState = {
-      items: [...filteredItems],
-    };
-
-    this.setState(newState);
+    store.dispatch(setItems(filteredItems));
+    store.dispatch(setId(id + 1));
   }
 
   completeItem(id) {
-    const { items } = this.state;
+    const { items } = store.getState();
 
     const filteredItems = items.map((item) => {
       if (item.id === id) {
@@ -80,15 +72,11 @@ export default class App extends Component {
       return item;
     });
 
-    const newState = {
-      items: [...filteredItems],
-    };
-
-    this.setState(newState);
+    store.dispatch(setItems(filteredItems));
   }
 
   cancelItem(id) {
-    const { items } = this.state;
+    const { items } = store.getState();
 
     const filteredItems = items.map((item) => {
       if (item.id === id) {
@@ -97,10 +85,6 @@ export default class App extends Component {
       return item;
     });
 
-    const newState = {
-      items: [...filteredItems],
-    };
-
-    this.setState(newState);
+    store.dispatch(setItems(filteredItems));
   }
 }

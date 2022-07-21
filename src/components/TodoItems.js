@@ -2,10 +2,10 @@ import Component from '../core/Component';
 
 export default class TodoItems extends Component {
   template() {
-    const { items } = this.props;
+    const { todoItems } = this.props;
 
     return `
-      ${items.map((item) => `
+      ${todoItems.map((item) => `
           <li key=${item.id}>
             ${item.content}
             <button
