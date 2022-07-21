@@ -1,5 +1,7 @@
+import { subscribe } from './observer';
+
 export default class Component {
-  state;
+  state = {};
 
   target;
 
@@ -8,11 +10,12 @@ export default class Component {
   constructor(target, props) {
     this.target = target;
     this.props = props;
-    this.initialize();
-    this.render();
+    subscribe(() => {
+      this.render();
+      this.mounted();
+      this.setEvent();
+    });
   }
-
-  initialize() {}
 
   setEvent() {}
 
@@ -22,17 +25,8 @@ export default class Component {
     return '';
   }
 
-  setState(newState) {
-    this.state = {
-      ...this.state, ...newState,
-    };
-    this.render();
-  }
-
   render() {
     this.target.innerHTML = this.template();
-    this.mounted();
-    this.setEvent();
   }
 
   addEvent({ target, className, event }) {

@@ -1,38 +1,39 @@
-/* currentObserver: 현재 관찰 대상을 가리킵니다. */
-let currentObserver = null;
+/* currentSubscriber: 현재 구독자를 가리킵니다. */
+let currentSubscriber = null;
 
-/* observe: function(fn)을 관찰 대상에 포함시킵니다. */
-const observe = (fn) => {
-  currentObserver = fn;
+/* subscribe: function(fn)을 구독자에 포함시킵니다. */
+const subscribe = (fn) => {
+  currentSubscriber = fn;
   fn();
-  currentObserver = null;
+  currentSubscriber = null;
 };
 
-/* observable: 관찰 대상 state를 지정합니다. */
-const observable = (state) => {
+/* subscribable: 구독 대상 state를 지정합니다. */
+const subscribable = (state) => {
   const stateKeys = Object.keys(state);
 
   stateKeys.forEach((key) => {
     let value = state[key];
-    const observers = new Set();
+    const subscribers = new Set();
 
     Object.defineProperty(state, key, {
-      // state getter → observers에 currentObserver을 등록
+      // state getter → currentSubscriber을 새로운 subscriber로 등록합니다.
       get() {
-        if (currentObserver) {
-          observers.add(currentObserver);
+        if (currentSubscriber) {
+          subscribers.add(currentSubscriber);
         }
         return value;
       },
-      // state setter → 모든 observers에 상태 변경을 알려줌
+      // state setter → 모든 subscribers에 상태 변경을 알려줍니다.
       set(newValue) {
         value = newValue;
-        observers.forEach((observer) => observer());
+        subscribers.forEach((subscriber) => subscriber());
       },
     });
   });
+  return state;
 };
 
 export {
-  observe, observable,
+  subscribe, subscribable,
 };

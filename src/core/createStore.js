@@ -1,4 +1,4 @@
-import { observable } from './observer';
+import { subscribable } from './observer';
 
 /*
 <createStore>
@@ -9,7 +9,7 @@ import { observable } from './observer';
 */
 
 const createStore = (reducer) => {
-  const state = observable(reducer());
+  const state = subscribable(reducer());
 
   // dispatch를 통해서만 상태를 변경할 수 있습니다.
   const dispatch = (action) => {
