@@ -59,7 +59,6 @@ export default class App extends Component {
     const filteredItems = items.filter((item) => item.id !== id);
 
     store.dispatch(setItems(filteredItems));
-    store.dispatch(setId(id + 1));
   }
 
   completeItem(id) {
