@@ -1,11 +1,19 @@
+/** @jsx virtualDom */
+import virtualDom from '../core/virtualDom';
+import createElement from '../core/createElement';
+
 import Component from '../core/Component';
 
 export default class InputField extends Component {
   template() {
-    return `
+    const element = createElement(
+      <div>
         <input placeholder="Enter Todo" class="input-field"/>
         <button type="button" class="add-button">Add</button>
-    `;
+      </div>,
+    );
+
+    return element.innerHTML;
   }
 
   setEvent() {

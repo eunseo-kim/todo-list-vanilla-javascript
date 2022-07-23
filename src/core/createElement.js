@@ -3,7 +3,7 @@
 export default function createElement(node) {
   const { type, props, children } = node;
 
-  if (typeof node === 'string') {
+  if (typeof node !== 'object') {
     return document.createTextNode(node);
   }
 

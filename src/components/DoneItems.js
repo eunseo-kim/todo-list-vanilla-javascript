@@ -1,23 +1,31 @@
+/** @jsx virtualDom */
+import virtualDom from '../core/virtualDom';
+import createElement from '../core/createElement';
+
 import Component from '../core/Component';
 
 export default class DoneItems extends Component {
   template() {
     const { doneItems } = this.props;
 
-    return `
-        ${doneItems.map((item) => `
-            <li key=${item.id}>
-              ${item.content}
-              <button
-                type='button'
-                class='cancel-button'
-                id='${item.id}'
-                >
-                취소
-              </button>
-            </li>
-        `).join('')}
-    `;
+    const element = createElement(<div></div>);
+
+    doneItems.forEach(({ id, content }) => {
+      element.innerHTML += createElement(
+        <li key={id}>
+          {content}
+          <button
+            type='button'
+            class='cancel-button'
+            id={id}
+            >
+            취소
+          </button>
+        </li>,
+      ).outerHTML;
+    });
+
+    return element.innerHTML;
   }
 
   setEvent() {

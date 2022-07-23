@@ -1,3 +1,7 @@
+/** @jsx virtualDom */
+import virtualDom from './core/virtualDom';
+import createElement from './core/createElement';
+
 import Component from './core/Component';
 import InputField from './components/InputField';
 import TodoItems from './components/TodoItems';
@@ -36,12 +40,16 @@ export default class App extends Component {
   }
 
   template() {
-    return `  
-      <div class="input-field">Input Field</div>
-      <ul class="todo"></ul>
-      <h3>Done Items</h3>
-      <ul class="done"></ul>
-    `;
+    const element = createElement(
+      <div>
+        <div class="input-field">Input Field</div>
+        <ul class="todo"></ul>
+        <h3>Done Items</h3>
+        <ul class="done"></ul>
+      </div>,
+    );
+
+    return element.innerHTML; // innerHTML → 바깥을 감싸고 있는 의미없는 <div></div>를 제외합니다.
   }
 
   addItem(content) {
